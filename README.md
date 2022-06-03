@@ -1,7 +1,20 @@
-# Vue 3 + Vite
+# Виджет проверки статуса заказа Ремонлайн
+Виджет проверки статуса заказа в сервисе Ремонлайн. Реализован для минимального тарифного плана.
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Демо
+https://remonline-widget-vue3.vercel.app/
 
-## Recommended IDE Setup
+Номер для проверки +375331234567
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+---
+*Для локальной разработки:*
+
+Создайте .env.local и укажите свой API ключ:
+`VITE_REMONLINE_API_KEY=<ваш ключ>`
+---
+*Для прода:*
+
+Создайте .env и укажите свой API ключ:
+`VITE_REMONLINE_API_KEY=<ваш ключ>`
+
+
