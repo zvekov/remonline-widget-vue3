@@ -1,5 +1,5 @@
 <script setup>
-import {ref, reactive, watch} from "vue";
+import {ref, reactive, computed, watch} from "vue";
 
 const phone = ref('')
 const clientOrders = reactive([])
@@ -25,14 +25,23 @@ async function getOrders() {
   return null
 }
 
+
+function addPlaceholder() {
+  if (phone.value.length === 0) {
+    phone.value = phone.value + '+375 ('
+  }
+}
+
+const isValidPhone = computed(() => phone.value.length === 19)
+
 function phoneChange() {
-  if (phone.value != 13) {
+  if (phone.value.length != 19) {
     clientOrders.value = null
   }
 }
 
-watch(phone, (watchPhone) => {
-  if (watchPhone.length === 13) {
+watch(phone, () => {
+  if (isValidPhone) {
     getOrders()
   }
 })
@@ -44,17 +53,18 @@ watch(phone, (watchPhone) => {
       <div :class="$style.form__wrapper">
 
         <input
+            v-maska="'+375 (##) ###-##-##'"
             v-model="phone"
             @keyup.enter="getOrders"
             @input="phoneChange"
+            @focus="addPlaceholder"
             type="tel"
             autocomplete="tel"
-            placeholder="+375"
+            placeholder="+375 ("
             :class="$style.form__wrapper__input"
         />
-
         <button
-            v-if="phone.length === 13"
+            v-if="isValidPhone"
             :class="$style.form__wrapper__button"
             @click="getOrders">
           <svg
@@ -70,7 +80,7 @@ watch(phone, (watchPhone) => {
       </div>
     </div>
 
-    <ul v-if="phone.length === 13 && clientOrders.value">
+    <ul v-if="isValidPhone && clientOrders.value">
       <li
           v-for="item in clientOrders.value" :key="item.id"
           :style="item.status.name === 'Готов' ? 'background-color: #0080001c;': ''"
@@ -83,7 +93,7 @@ watch(phone, (watchPhone) => {
       </li>
     </ul>
 
-    <div v-if="clientOrders.value && clientOrders.value.length === 0"
+    <div v-if="isValidPhone && clientOrders.value && clientOrders.value.length === 0"
          class="text-sm mb-4 rounded-r-xl rounded-bl-xl bg-gray-100 p-4">
       Заказов не найдено
     </div>
