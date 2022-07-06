@@ -11,3 +11,14 @@
 .v-leave-to {
   opacity: 0;
 }
+
+
+.width-enter-active,
+.width-leave-active {
+  transition: width 0.5s ease;
+  width: 100%;
+}
+.width-enter-from,
+.with-leave-to {
+  width: 100%;
+}

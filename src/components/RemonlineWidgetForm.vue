@@ -40,8 +40,8 @@ function phoneChange() {
   }
 }
 
-watch(phone, () => {
-  if (isValidPhone) {
+watch(phone, (watchPhone) => {
+  if (phone.value.length === 19) {
     getOrders()
   }
 })
@@ -54,6 +54,7 @@ watch(phone, () => {
 
         <input
             v-maska="'+375 (##) ###-##-##'"
+            maxlength="19"
             v-model="phone"
             @keyup.enter="getOrders"
             @input="phoneChange"
@@ -80,7 +81,7 @@ watch(phone, () => {
       </div>
     </div>
 
-    <ul v-if="isValidPhone && clientOrders.value">
+    <ul v-if="isValidPhone && clientOrders.value" :class="$style.form__wrapper__list">
       <li
           v-for="item in clientOrders.value" :key="item.id"
           :style="item.status.name === 'Готов' ? 'background-color: #0080001c;': ''"
@@ -110,6 +111,11 @@ watch(phone, () => {
 
     &__input {
       @apply w-full rounded-r-xl rounded-bl-xl h-10 px-4;
+    }
+
+    &__list {
+      @apply overflow-y-auto mb-2;
+      max-height: calc(100vh - 20rem);
     }
 
     &__button {
